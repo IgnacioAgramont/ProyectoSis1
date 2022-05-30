@@ -8,7 +8,7 @@ def convertToBinaryData(filename):
     return binaryData
 
 
-def insertBLOB(name, desc, photo):
+def insertBLOB(id_prod, name, price, desc, photo, id_cate, id_cat, id_est_prod):
     print("Inserting BLOB into productos table")
     try:
         connection = mysql.connector.connect(host='localhost',
@@ -22,8 +22,11 @@ def insertBLOB(name, desc, photo):
 
         empPicture = convertToBinaryData(photo)
 
+    #! TRABAJAR AQUI COMPLETANDO LA CONVERSION A BLOB DE LOS DATOS Y HACER UN TEST.
+    # TODO ARREGLAR EL TAMANIO DE SUCURSALES
         # Convert data into tuple format
-        insert_blob_tuple = (name, desc, empPicture)
+        insert_blob_tuple = (id_prod, name, price, desc,
+                             empPicture, id_cate, id_cat, id_est_prod)
         result = cursor.execute(sql_insert_blob_query, insert_blob_tuple)
         connection.commit()
         print("Image and file inserted successfully as a BLOB into productos table", result)
@@ -37,7 +40,6 @@ def insertBLOB(name, desc, photo):
             connection.close()
             print("MySQL connection is closed")
 
-insertBLOB("Ignacio", "Ignacio apellida Agramont",
-           "C:/Users/ignac/Desktop/Speaker1.jpg")
-insertBLOB("Javier", "Javier es buena onda",
-           "C:/Users/ignac/Desktop/perronaldo.png")
+
+insertBLOB(1, "Pan de Chocolate", 3.00, "Pan hecho con chocolate para acompañar a la hora del té.",
+           "C:\\Users\\ignac\\Desktop\\PanChocolate.jpeg", 1, 1, 1)
