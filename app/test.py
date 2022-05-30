@@ -9,16 +9,16 @@ def convertToBinaryData(filename):
 
 
 def insertBLOB(name, desc, photo):
-    print("Inserting BLOB into python_employee table")
+    print("Inserting BLOB into productos table")
     try:
         connection = mysql.connector.connect(host='localhost',
-                                             database='pruebablob',
+                                             database='proyectosis',
                                              user='root',
                                              password='')
 
         cursor = connection.cursor()
-        sql_insert_blob_query = """ INSERT INTO datos
-                          (nombre, descripcion, imagen) VALUES (%s,%s,%s)"""
+        sql_insert_blob_query = """ INSERT INTO productos
+                          (id_producto, nombre, precio, descripcion, imagen, id_categoria, id_catalogo, id_estado_producto) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""",
 
         empPicture = convertToBinaryData(photo)
 
@@ -26,7 +26,7 @@ def insertBLOB(name, desc, photo):
         insert_blob_tuple = (name, desc, empPicture)
         result = cursor.execute(sql_insert_blob_query, insert_blob_tuple)
         connection.commit()
-        print("Image and file inserted successfully as a BLOB into python_employee table", result)
+        print("Image and file inserted successfully as a BLOB into productos table", result)
 
     except mysql.connector.Error as error:
         print("Failed inserting BLOB data into MySQL table {}".format(error))

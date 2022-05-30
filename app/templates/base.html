@@ -21,13 +21,23 @@
       crossorigin="anonymous"
     ></script>
     <style>
-      {%block styles %}
-      {%endblock %}
+      .navbar-custom {
+        background: #77dd77;
+        font-size: 20px;
+      }
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand ml-3" href="/">Reposteria Margalin</a>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <a class="navbar-brand ml-3 text-dark" href="/" style="font-size: 30px"
+        ><img
+          src="./static/images/pastelicono.png"
+          width="45"
+          height="45"
+          class="d-inline-block align-top mr-3"
+          alt="pastel"
+        />Reposteria Margalin</a
+      >
       <button
         class="navbar-toggler"
         type="button"
@@ -42,13 +52,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/">Inicio </a>
+            <a class="nav-link text-dark" href="/">Inicio </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/contacto">Productos</a>
+            <a class="nav-link text-dark" href="#">Productos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Sucursales</a>
+            <a class="nav-link text-dark" href="/sucursales">Sucursales</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/contacto">Contacto</a>
           </li>
         </ul>
       </div>
