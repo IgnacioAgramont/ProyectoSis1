@@ -68,8 +68,7 @@ def write_file(data, filename):
         file.write(data)
 
 
-def readBLOB(emp_id, photo, bioData):
-    print("Reading BLOB data from python_employee table")
+def readBLOB(idimg):
 
     try:
         connection = mysql.connector.connect(host='localhost',
@@ -78,16 +77,14 @@ def readBLOB(emp_id, photo, bioData):
                                              password='')
 
         cursor = connection.cursor()
-        sql_fetch_blob_query = """SELECT * from productos where id = %s"""
-
-        cursor.execute(sql_fetch_blob_query, (emp_id,))
+        sql_fetch_blob_query = "SELECT * from productos where id = %s"
+        #todo arreglar imagen y ver lo de leer blobs
+        cursor.execute(sql_fetch_blob_query, [idimg])
         record = cursor.fetchall()
         for row in record:
-            print("Id = ", row[0], )
-            print("Name = ", row[1])
             image = row[2]
-            print("Storing employee image and bio-data on disk \n")
-            write_file(image, photo)
+            photo = "./static/images/%s.jpeg".format(row[1])
+            write_file(image, int(photo))
 
     except mysql.connector.Error as error:
         print("Failed to read BLOB data from MySQL table {}".format(error))

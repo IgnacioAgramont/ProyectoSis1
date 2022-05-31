@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, flash, url_for, redirect
 from flask_mysqldb import MySQL
 import mysql.connector
+import base64
+from PIL import Image
+import io 
 
-from .prueba import insertBLOB
+from .prueba import insertBLOB, readBLOB
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
@@ -41,6 +44,33 @@ def contacto():
 @app.route('/sucursales')
 def sucursales():
     return render_template('sucursales.html')
+
+@app.route('/productos')
+def productos():
+    try:
+        cursor = db.connection.cursor()
+        sql = "SELECT * FROM productos"
+        cursor.execute(sql)
+        row = cursor.fetchall()
+        for productos in row:
+        
+            readBLOB(productos[4])
+        # for productos in row:
+        #     imagen1 = productos[4]
+        #     # The returned data will be a list of list
+        #     image = imagen1[0][0]
+  
+        #     # Decode the string
+        #     binary_data = base64.b64decode(image)
+  
+        #     # Convert the bytes into a PIL image
+        #     image = Image.open(io.BytesIO(binary_data))
+  
+        #     # Display the image
+        #     image.show()
+        return render_template('productos.html', rows=row)
+    except Exception as ex:
+        raise Exception(ex)
 
 
 @app.route('/login', methods=['GET', 'POST'])
