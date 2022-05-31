@@ -52,9 +52,24 @@ def productos():
         sql = "SELECT * FROM productos"
         cursor.execute(sql)
         row = cursor.fetchall()
+        rowfinal = []
+        rowaux = []
         for productos in row:
-        
-            readBLOB(productos[4])
+            rowaux.append(productos[0])
+            rowaux.append(productos[1])
+            rowaux.append(productos[2])
+            rowaux.append(productos[3])
+            rowaux.append(readBLOB(productos[0]))
+            rowaux.append(productos[5])
+            rowaux.append(productos[6])
+            rowaux.append(productos[6])
+            aux = tuple(rowaux)
+            #print(aux)
+            rowfinal.append(aux)
+            rowaux = []
+        #print('-------------------------------final----------------------')
+        rowfinal = tuple(rowfinal)
+        #print(rowfinal)
         # for productos in row:
         #     imagen1 = productos[4]
         #     # The returned data will be a list of list
@@ -68,7 +83,7 @@ def productos():
   
         #     # Display the image
         #     image.show()
-        return render_template('productos.html', rows=row)
+        return render_template('productos.html', rows=rowfinal)
     except Exception as ex:
         raise Exception(ex)
 

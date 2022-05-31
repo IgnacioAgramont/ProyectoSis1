@@ -1,4 +1,8 @@
 import mysql.connector
+import os
+
+
+app_root = os.path.dirname(os.path.abspath(__file__))
 
 def convertToBinaryData(filename):
     # Convert digital data to binary format
@@ -49,7 +53,7 @@ def insertBLOB(id_prod, name, price, desc, photo, id_cate, id_cat, id_est_prod):
         connection.commit()
 
     except mysql.connector.Error as error:
-        print("Failed inserting BLOB data into MySQL table {}".format(error))
+        print("Fallo al agregar el BLOB {}".format(error))
 
     finally:
         if connection.is_connected():
@@ -77,23 +81,25 @@ def readBLOB(idimg):
                                              password='')
 
         cursor = connection.cursor()
-        sql_fetch_blob_query = "SELECT * from productos where id = %s"
-        #todo arreglar imagen y ver lo de leer blobs
+        sql_fetch_blob_query = "SELECT * from productos where id_producto = %s"
         cursor.execute(sql_fetch_blob_query, [idimg])
         record = cursor.fetchall()
         for row in record:
-            image = row[2]
-            photo = "./static/images/%s.jpeg".format(row[1])
-            write_file(image, int(photo))
-
+            image = row[4]
+            route = row[1]
+            aux = route.replace(" ","_")
+            photo = "./static/images/{}.jpeg".format(aux)
+            target = os.path.join(app_root, photo)
+            write_file(image, target)
+        return photo
     except mysql.connector.Error as error:
-        print("Failed to read BLOB data from MySQL table {}".format(error))
+        print("Fallo al leer el BLOB {}".format(error))
 
     finally:
         if connection.is_connected():
             cursor.close()
             connection.close()
-            print("MySQL connection is closed")
+            
 
 
 # readBLOB(1, "D:\Python\Articles\my_SQL\query_output\eric_photo.png")
