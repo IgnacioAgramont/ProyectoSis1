@@ -7,8 +7,30 @@ def convertToBinaryData(filename):
     return binaryData
 
 
+# def deleteprod(idprod):
+#     try:
+#         connection = mysql.connector.connect(host='localhost',
+#                                              database='proyectosis',
+#                                              user='root',
+#                                              password='')
+
+#         cursor = connection.cursor()
+#         sql_insert_blob_query = """DELETE FROM productos WHERE id_producto = %s"""
+
+        
+#         cursor.execute(sql_insert_blob_query,[idprod] )
+#         connection.commit()
+
+#     except mysql.connector.Error as error:
+#         print("Falla al borrar {}".format(error))
+
+#     finally:
+#         if connection.is_connected():
+#             cursor.close()
+#             connection.close()
+
 def insertBLOB(id_prod, name, price, desc, photo, id_cate, id_cat, id_est_prod):
-    print("Inserting BLOB into python_employee table")
+    
     try:
         connection = mysql.connector.connect(host='localhost',
                                              database='proyectosis',
@@ -23,9 +45,8 @@ def insertBLOB(id_prod, name, price, desc, photo, id_cate, id_cat, id_est_prod):
 
         # Convert data into tuple format
         insert_blob_tuple = (id_prod, name, price, desc, empPicture, id_cate, id_cat, id_est_prod)
-        result = cursor.execute(sql_insert_blob_query, insert_blob_tuple)
+        cursor.execute(sql_insert_blob_query, insert_blob_tuple)
         connection.commit()
-        print("Image and file inserted successfully as a BLOB into python_employee table", result)
 
     except mysql.connector.Error as error:
         print("Failed inserting BLOB data into MySQL table {}".format(error))
@@ -34,7 +55,7 @@ def insertBLOB(id_prod, name, price, desc, photo, id_cate, id_cat, id_est_prod):
         if connection.is_connected():
             cursor.close()
             connection.close()
-            print("MySQL connection is closed")
+            
 
 
 #insertBLOB(2, "Pan de Canela", 2.0, "Pan de Canela especial para compartir", "C:/Users/ignac/Desktop/fotos/PanCanela.jpeg", 3, 1, 1)
