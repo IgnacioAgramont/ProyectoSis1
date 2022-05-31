@@ -1,14 +1,10 @@
 from flask import Flask, render_template, request, flash, url_for, redirect
 from flask_mysqldb import MySQL
-import mysql.connector
-import base64
-from PIL import Image
-import io 
+
 
 from .prueba import insertBLOB, readBLOB
 import os
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
 
 from config import config
 from .models.ModelUser import ModelUser
