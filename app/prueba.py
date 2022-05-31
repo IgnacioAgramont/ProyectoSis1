@@ -33,6 +33,29 @@ def convertToBinaryData(filename):
 #             cursor.close()
 #             connection.close()
 
+def insertPedido(nombre, apellido, direccion, telefono, nit):
+    try:
+        connection = mysql.connector.connect(host='localhost',
+                                             database='proyectosis',
+                                             user='root',
+                                             password='')
+
+        cursor = connection.cursor()
+        sql_insert_blob_query = """ INSERT INTO Persona
+                          (id_persona, nombre, apellido, telefono, direccion, ci, email) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+        email = "email@mail.com"
+        insert_data_tuple = (nit, nombre, apellido, telefono, direccion, nit, email)
+        cursor.execute(sql_insert_blob_query, insert_data_tuple)
+        connection.commit()
+
+    except mysql.connector.Error as error:
+        print("Fallo al agregar el BLOB {}".format(error))
+
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
 def insertBLOB(id_prod, name, price, desc, photo, id_cate, id_cat, id_est_prod):
     
     try:
@@ -103,3 +126,9 @@ def readBLOB(idimg):
 
 
 # readBLOB(1, "D:\Python\Articles\my_SQL\query_output\eric_photo.png")
+
+
+
+    
+
+   

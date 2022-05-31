@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, flash, url_for, redirect
+from flask import Flask, render_template, request, flash, url_for, redirect, session
 from flask_mysqldb import MySQL
+import mysql.connector
 
-
-from .prueba import insertBLOB, readBLOB
+from .prueba import insertBLOB, readBLOB, insertPedido
 import os
 from flask_sqlalchemy import SQLAlchemy
 
@@ -41,6 +41,7 @@ def contacto():
 def sucursales():
     return render_template('sucursales.html')
 
+
 @app.route('/productos')
 def productos():
     try:
@@ -60,23 +61,23 @@ def productos():
             rowaux.append(productos[6])
             rowaux.append(productos[6])
             aux = tuple(rowaux)
-            #print(aux)
+            # print(aux)
             rowfinal.append(aux)
             rowaux = []
-        #print('-------------------------------final----------------------')
+        # print('-------------------------------final----------------------')
         rowfinal = tuple(rowfinal)
-        #print(rowfinal)
+        # print(rowfinal)
         # for productos in row:
         #     imagen1 = productos[4]
         #     # The returned data will be a list of list
         #     image = imagen1[0][0]
-  
+
         #     # Decode the string
         #     binary_data = base64.b64decode(image)
-  
+
         #     # Convert the bytes into a PIL image
         #     image = Image.open(io.BytesIO(binary_data))
-  
+
         #     # Display the image
         #     image.show()
         return render_template('productos.html', rows=rowfinal)
@@ -155,6 +156,30 @@ def agregar():
     else:
         return render_template('agregar.html')
 
+@app.route('/pedido_confirmado',methods=['GET', 'POST'])
+def pedido_confirmado():
+    if request.method == 'POST':
+        try:
+            nombre = request.form['nombre']
+            apellido = request.form['apellido']
+            direccion = request.form['direccion']
+            telefono = request.form['telefono']
+            nit = request.form['nit']
+            
+            insertPedido(nombre, apellido, direccion, telefono, nit)
+
+            session['cart'] = []
+            session.modified = True
+
+            cursor = db.connection.cursor()
+            sql = "SELECT * FROM productos"
+            cursor.execute(sql)
+            row = cursor.fetchall()
+            return render_template('index.html', rows=row)
+        except Exception as exc:
+            raise Exception(exc)
+    else:
+        return render_template('agregar.html')
 
 @app.route('/eliminar')
 def eliminar():
@@ -173,7 +198,7 @@ def eliminarid(id):
     try:
         cursor = db.connection.cursor()
         sql = "DELETE FROM productos WHERE id_producto = %s"
-        cursor.execute(sql,[id])
+        cursor.execute(sql, [id])
         db.connection.commit()
         cursor = db.connection.cursor()
 
@@ -188,6 +213,82 @@ def eliminarid(id):
 @app.route('/modificar')
 def modificar():
     return render_template('modificar.html')
+
+
+@app.route('/cart_add', methods=['GET', 'POST'])
+def cart_add():
+    if request.method == 'POST':
+        if 'cart' not in session:
+            session['cart'] = []
+            return redirect(url_for('productos'))
+        # print(request.form.get("id_producto"))
+        # print(request.form.get("nombre"))
+        # print(request.form.get("precio"))
+        # print(request.form.get("img"))
+        session['cart'].append(
+            {'id': request.form.get("id_producto"), 'nombre': request.form.get(
+                "nombre"), 'cantidad': request.form.get("cantidad"), 'precio': request.form.get("precio"), 'img': request.form.get("img")})
+        session.modified = True
+
+        return redirect(url_for('productos'))
+    else:
+        return redirect(url_for('productos'))
+
+
+def carrito():
+
+    productos = []
+    total = 0.0
+    indice = 0
+    cantidad_total = 0
+    total_final = 0.0
+
+    try:
+        connection = mysql.connector.connect(host='localhost',
+                                             database='proyectosis',
+                                             user='root',
+                                             password='')
+
+        for item in session['cart']:
+            cursor = connection.cursor()
+            sql_fetch_blob_query = "SELECT * from productos where id_producto = %s"
+            cursor.execute(sql_fetch_blob_query, [item['id']])
+            producto = cursor.fetchone()
+            cantidad = int(item['cantidad'])
+            total = cantidad * int(producto[2])
+            total_final += total
+
+            cantidad_total += cantidad
+
+            productos.append({'id_producto': producto[0], 'nombre': producto[1], 'precio': float(producto[2]),
+                             'imagen': item['img'], 'cantidad': cantidad, 'total': total, 'indice': indice})
+            indice += 1
+        total_envio = total_final + 10
+
+        return productos, float(total_final), float(total_envio), cantidad_total
+
+    except mysql.connector.Error as error:
+        print("Fallo {}".format(error))
+
+@app.route('/quitar_del_cart/<index>')
+def quitar_del_cart(index):
+    del session['cart'][int(index)]
+    session.modified = True
+    return redirect(url_for('cart'))
+
+
+@app.route('/cart')
+def cart():
+    productos, parcial, total, cantidad_total = carrito()
+    # print('---------------------------productos---------------------')
+    # print(productos)
+    # print('---------------------------parcial---------------------')
+    # print(parcial)
+    # print('---------------------------total---------------------')
+    # print(total)
+    # print('---------------------------cantidad_total---------------------')
+    # print(cantidad_total)
+    return render_template('cart.html', productos = productos, parcial = parcial, total = total, cantidad_total = cantidad_total)
 
 
 def inicializarApp(config):

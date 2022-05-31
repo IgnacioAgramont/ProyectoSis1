@@ -1,0 +1,129 @@
+{% extends './base.html'%} {%block button %}
+<li class="nav-item" style="margin-left: 20%; margin-top: 5px">
+  <a class="btn btn-success" href="/login" role="button">Login</a>
+</li>
+{%endblock%} {%block content %}
+<h1 style="text-align: center; margin-top: 2%">Carrito</h1>
+<table
+  class="table"
+  style="margin-left: 5%; margin-right: 5%; margin-top: 3%; margin-bottom 5%; width: 90%"
+>
+  <thead>
+    <tr>
+      <th scope="col" style="width: 8%"></th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Subtotal</th>
+      <th scope="col" style="width: 5%"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for producto in productos%}
+    <tr>
+      <td>
+        <img src="{{producto['imagen']}}" style="width: 110px; height: 70px" />
+      </td>
+      <td>{{producto['nombre']}}</td>
+      <td>{{producto['precio']}}</td>
+      <td>{{producto['cantidad']}}</td>
+      <td>{{producto['total']}}</td>
+      <th scope="col">
+        <a href="{{ url_for('quitar_del_cart', index=producto['indice']) }}"
+          ><button class="btn btn-danger" type="button">Eliminar</button></a
+        >
+      </th>
+    </tr>
+    {%endfor %}
+  </tbody>
+</table>
+<div class="container" style="width: 100%">
+  <div class="row">
+    <div class="col">
+      <form method="post" action="/pedido_confirmado" style="margin-bottom: 10%">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Nombre"
+            name="nombre"
+          />
+          <br />
+        </div>
+
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Apellido"
+            name="apellido"
+          />
+        </div>
+        <br />
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Direccion"
+            name="direccion"
+          />
+        </div>
+        <br />
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Razon Social"
+            name="razon_social"
+          />
+        </div>
+        <br />
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="NIT"
+            name="nit"
+          />
+        </div>
+        <br>
+        <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Telefono"
+              name="telefono"
+            />
+          </div>
+        <br />
+        <button
+          class="w-10 btn btn-lg"
+          style="background-color: #77dd77;"
+          type="submit"
+        >
+          Confirmar
+        </button>
+      </form>
+    </div>
+    <div class="col">
+      <table
+        class="table"
+        style="margin-left: 5%; margin-right: 5%; margin-top: 3%; margin-bottom 5%; width: 90%"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Total</th>
+            <th scope="col">Total con envio (Bs. 10)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{parcial}}</td>
+            <td>{{total}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock%}
