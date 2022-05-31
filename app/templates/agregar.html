@@ -1,0 +1,116 @@
+{%extends './admin_template.html'%} {%block button %}
+<li class="nav-item" style="margin-left: 20%; margin-top: 5px">
+  <a class="btn btn-danger" href="/" role="button">Logout</a>
+</li>
+{%endblock%} {%block admin_panel%}
+<h1 style="text-align: center; margin-top: 2%">Agregar producto</h1>
+
+<div style="display: flex; flex-direction: column; align-items: center">
+  <div class="container px-5 my-5">
+    <form action="/login" method="POST">
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          name="idProducto"
+          type="text"
+          placeholder="ID Producto"
+          data-sb-validations="required"
+        />
+        <div class="invalid-feedback" data-sb-feedback="idProducto:required">
+          ID Producto is required.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          name="nombre"
+          type="text"
+          placeholder="Nombre"
+          data-sb-validations="required"
+        />
+        <div class="invalid-feedback" data-sb-feedback="nombre:required">
+          Nombre is required.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          name="precio"
+          type="text"
+          placeholder="Precio"
+          data-sb-validations="required"
+        />
+        <div class="invalid-feedback" data-sb-feedback="precio:required">
+          Precio is required.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          name="descripcion"
+          type="text"
+          placeholder="Descripcion"
+          data-sb-validations="required"
+        />
+        <div class="invalid-feedback" data-sb-feedback="descripcion:required">
+          Descripcion is required.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          name="categoria"
+          type="text"
+          placeholder="Categoria"
+          data-sb-validations="required"
+        />
+        <div class="invalid-feedback" data-sb-feedback="categoria:required">
+          Categoria is required.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          name="catalogo"
+          type="text"
+          placeholder="Catalogo"
+          data-sb-validations="required"
+        />
+        <div class="invalid-feedback" data-sb-feedback="catalogo:required">
+          Catalogo is required.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          name="estadoProducto"
+          type="text"
+          placeholder="Estado Producto"
+          data-sb-validations="required"
+        />
+        <div
+          class="invalid-feedback"
+          data-sb-feedback="estadoProducto:required"
+        >
+          Estado Producto is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="exampleFormControlFile1">Agregar Imagen</label>
+        <input
+          type="file"
+          class="form-control-file"
+          name = "imagen"
+          style="margin-left: 10px; margin-bottom: 20px;"
+        />
+      </div>
+      <div class="d-grid">
+        <button class="w-10 btn btn-lg" style="background-color: #77dd77; " type="submit">
+          Agregar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{%endblock%}

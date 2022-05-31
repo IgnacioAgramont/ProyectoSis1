@@ -1,0 +1,62 @@
+{%extends './base.html'%}
+
+{%block style %}
+
+  .sidebar {
+    position: fixed;
+    top: 10%;
+    bottom: 10%;
+    left: 0;
+    padding: 10% 0 0; 
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 240px;
+    z-index: 600;
+  }
+  
+  @media (max-width: 991.98px) {
+    .sidebar {
+      width: 100%;
+    }
+  }
+  
+{%endblock%}
+{%block button %}
+<li class="nav-item" style="margin-left: 20%;margin-top:5px;">
+    <a class="btn btn-danger" href="/" role="button">Logout</a>
+  </li>
+{%endblock%}
+
+{%block content %}
+
+
+<header>
+    
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse" style="background-color: #77dd77;">
+      <div class="position-sticky">
+        <div style="text-align: center;">
+            <h3>Dashboard</h3>
+        </div>
+        
+        <div class="list-group list-group-flush mx-3 mt-4">
+            <a href="/admin" class="list-group-item list-group-item-action py-2 ripple">
+            </i><span>Todos los Productos</span>
+          </a>
+          <a href="/agregar" class="list-group-item list-group-item-action py-2 ripple">
+            </i><span>Agregar</span>
+          </a>
+          <a href="/eliminar" class="list-group-item list-group-item-action py-2 ripple"
+            ><span>Eliminar</span></a
+          >
+          <a href="/modificar" class="list-group-item list-group-item-action py-2 ripple"
+            ><span>Modificar</span></a
+          >
+        </div>
+      </div>
+    </nav>  
+  </header>
+  
+  {%block admin_panel%}
+
+  {%endblock%}
+
+{%endblock %}

@@ -21,7 +21,11 @@
       integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
       crossorigin="anonymous"
     ></script>
+    {%block customCSS %}
+    {%endblock %}
     <style>
+      {%block style %}
+      {%endblock%}
       .navbar-custom {
         background: #77dd77;
         font-size: 20px;
@@ -64,6 +68,8 @@
           <li class="nav-item">
             <a class="nav-link text-dark" href="/contacto">Contacto</a>
           </li>
+          {%block button%}
+          {%endblock%}
         </ul>
       </div>
     </nav>
@@ -71,7 +77,7 @@
     {%block content %} {%endblock %}
 
     <footer class="bg-light text-center text-lg-start fixed-bottom">
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      <div class="text-center p-3" style="background-color: #77dd77 ">
         © 2022 Copyright: Reposteria Margalin
       </div>
     </footer>
