@@ -37,7 +37,7 @@ def insertBLOB(id_prod, name, price, desc, photo, id_cate, id_cat, id_est_prod):
             print("MySQL connection is closed")
 
 
-insertBLOB(2, "Pan de Canela", 2.0, "Pan de Canela especial para compartir", "C:/Users/ignac/Desktop/fotos/PanCanela.jpeg", 3, 1, 1)
+#insertBLOB(2, "Pan de Canela", 2.0, "Pan de Canela especial para compartir", "C:/Users/ignac/Desktop/fotos/PanCanela.jpeg", 3, 1, 1)
 
 #! Sacar datos de un blob
 
